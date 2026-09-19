@@ -4,7 +4,7 @@
 
 | Nama | NIM | Kontribusi |
 |---|---|---|
-| [Hendra DIrga Dwi Saputra] | [103072430018] | [Latency Is Zero] |
+| Hendra DIrga Dwi Saputra | 103072430018 | Latency Is Zero |
 | [nama 2] | [nim] | [pitfall/bagian yang dikerjakan] |
 | [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
 
