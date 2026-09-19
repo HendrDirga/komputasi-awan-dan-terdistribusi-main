@@ -8,7 +8,7 @@
 | [nama 2] | [nim] | [pitfall/bagian yang dikerjakan] |
 | [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
 
-## Pitfall 1: [nama pitfall] — ditulis oleh [nama]
+## Pitfall 1: Latency Is Zero — ditulis oleh Hendra Dirga
 
 **Bukti di skenario:** [kutip/paraphrase bagian skenario]
 
