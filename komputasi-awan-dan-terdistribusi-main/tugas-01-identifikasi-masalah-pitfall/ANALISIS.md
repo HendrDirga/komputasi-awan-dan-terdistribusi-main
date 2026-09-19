@@ -50,44 +50,16 @@ Kondisi ini sesuai dengan akibat yang terjadi pada FoodGo, yaitu aplikasi menjad
 jika tidak terdapat batas waktu pada komunikasi tersebut, sebuah request dapat menunggu jauh lebih lama daripada waktu yang seharusnya. Jika kondisi ini terjadi pada banyak request secara bersamaan, keterlambatan dapat berkembang menjadi masalah yang lebih besar pada keseluruhan backend.
 
 **Solusi desain awal:**  
-FoodGo dapat menerapkan `timeout` pada komunikasi antara modul pesanan dan modul pembayaran. Dengan adanya timeout, modul pesanan tidak akan menunggu response tanpa batas waktu. Jika service pembayaran tidak memberikan response dalam batas waktu tertentu, request dapat dianggap mengalami kegagalan sementara atau masuk ke mekanisme penanganan berikutnya.
+FoodGo dapat menerapkan batas waktu (`timeout`) pada komunikasi antara modul pesanan dan modul pembayaran. Dengan adanya timeout, modul pesanan tidak akan menunggu respons pembayaran tanpa batas waktu. Jika respons tidak diterima dalam waktu yang telah ditentukan, sistem dapat menghentikan proses menunggu dan memberikan status bahwa pembayaran belum dapat dikonfirmasi.
 
-Selain timeout, FoodGo dapat menggunakan `asynchronous processing` untuk proses yang tidak harus menghasilkan response secara langsung. Salah satu pendekatannya adalah menggunakan `message queue`. Modul pesanan dapat memasukkan pekerjaan pembayaran ke dalam queue, kemudian service pembayaran mengambil dan memproses pekerjaan tersebut.
+Untuk proses yang tidak harus selesai sebelum pengguna mendapatkan respons utama, FoodGo juga dapat menggunakan pemrosesan asynchronous. Contohnya, proses notifikasi tidak perlu membuat modul pesanan terus menunggu sampai notifikasi selesai dikirim. Dengan cara ini, modul utama dapat menyelesaikan prosesnya tanpa terlalu bergantung pada proses lain yang lebih lambat.
 
-Metode tersebut dapat mengurangi ketergantungan langsung antara modul pesanan dan pembayaran. Modul pesanan tidak harus mempertahankan request dalam kondisi menunggu sampai seluruh proses pembayaran selesai.
-
-Untuk komunikasi yang memang harus dilakukan secara langsung, timeout dapat dikombinasikan dengan mekanisme seperti `retry` terbatas dan `exponential backoff`. Retry sebaiknya tidak dilakukan tanpa batas karena service yang sedang mengalami beban tinggi justru dapat menerima request tambahan dari proses retry.
-
-Dengan demikian, rancangan awal yang dapat digunakan adalah:
-
-Request pesanan
-
-→ Service pembayaran
-
-→ timeout jika terlalu lama
-
-→ retry terbatas jika kegagalan bersifat sementara
-
-Sedangkan untuk proses yang tidak harus selesai pada request yang sama:
-
-Request pesanan
-
-→ Message Queue
-
-→ Service pembayaran
-
-→ proses asynchronous
-
-→ update status pembayaran
+Pendekatan ini relatif sederhana untuk diterapkan pada tahap awal karena FoodGo tidak harus langsung memisahkan seluruh sistem menjadi banyak service atau menggunakan infrastruktur yang kompleks. Fokus awalnya adalah memberikan batas waktu pada komunikasi dan mengurangi proses yang tidak perlu ditunggu secara langsung.
 
 **Trade-off:**  
-Penerapan timeout memang mencegah sebuah request menunggu tanpa batas, tetapi timeout tidak otomatis menyelesaikan proses yang sedang berjalan pada service tujuan. Misalnya, modul pesanan berhenti menunggu karena timeout, tetapi modul pembayaran mungkin masih sedang memproses transaksi tersebut. Karena itu, FoodGo perlu memiliki mekanisme untuk menentukan status transaksi agar tidak terjadi pembayaran ganda atau status pesanan yang tidak konsisten.
+Penerapan timeout dapat menyebabkan sistem berhenti menunggu meskipun service pembayaran sebenarnya masih memproses request. Oleh karena itu, FoodGo perlu membedakan antara transaksi yang benar-benar gagal dan transaksi yang masih dalam proses agar tidak terjadi kesalahan status atau pembayaran ganda.
 
-Penggunaan retry juga memiliki risiko. Retry dapat membantu ketika kegagalan disebabkan oleh gangguan jaringan yang hanya sementara, tetapi jika service pembayaran sedang overload, terlalu banyak retry justru akan menambah jumlah request yang masuk. Hal tersebut dapat memperbesar beban dan memperparah kondisi sistem.
-
-Sementara itu, penggunaan message queue dan asynchronous processing dapat mengurangi waktu tunggu pada request utama, tetapi konsekuensinya adalah arsitektur menjadi lebih kompleks. FoodGo harus menangani status pekerjaan di dalam queue, kemungkinan pesan diproses ulang, kegagalan pemrosesan, serta sinkronisasi status antara pesanan dan pembayaran.
-
-Jadi, solusi tidak cukup hanya dengan membuat komunikasi menjadi lebih cepat. FoodGo perlu merancang sistem agar keterlambatan komunikasi dapat ditangani tanpa menyebabkan seluruh request ikut tertahan. Trade-off utamanya adalah peningkatan ketahanan dan kemampuan menangani beban harus dibayar dengan tambahan kompleksitas pada pengelolaan timeout, retry, queue, dan status transaksi.
+Pemrosesan asynchronous juga membuat sistem sedikit lebih kompleks karena hasil proses tidak selalu tersedia secara langsung. Namun, kompleksitas tersebut dapat diterima untuk proses yang memang tidak harus selesai secara synchronous. Dengan demikian, FoodGo dapat mengurangi efek latency tanpa langsung membangun arsitektur yang terlalu kompleks untuk kebutuhan awal.
 
 ---
 
