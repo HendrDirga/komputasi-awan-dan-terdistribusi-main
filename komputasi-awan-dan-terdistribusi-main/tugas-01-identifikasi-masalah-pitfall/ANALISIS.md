@@ -72,8 +72,6 @@ Dalam sistem terdistribusi jaringan tidak selalu sempurna dan berisiko terjadi g
 
 **Dampak ke FoodGo:**
 
-Rantai kegagalannya dapat digambarkan sebagai berikut:
-
 Request melonjak karena jam makan siang/hari promo → karena jaringan dipakai oleh banyak request secara bersamaan, jaringan menjadi lebih padat, sehingga kemungkinan terjadi gangguan (seperti koneksi terputus sesaat) menjadi lebih besar dibanding saat request sedikit → karena tidak ada retry, request yang gagal karena gangguan jaringan sesaat langsung dianggap gagal total (tidak dicoba lagi) → jika ini terjadi pada banyak request secara bersamaan terutama saat jam makan siang/hari promo, maka sebagian user akan mengalami pesanan gagal/tidak berhasil, meskipun sebenarnya gangguannya cuma sesaat.
 
 Ini sesuai dengan gejala "beberapa permintaan timeout" yang dilaporkan tim engineering — kata "beberapa" (bukan "semua") menunjukkan sifat gangguan jaringan yang acak, sehingga hanya sebagian request yang kebetulan terjadi saat itu yang terdampak.
