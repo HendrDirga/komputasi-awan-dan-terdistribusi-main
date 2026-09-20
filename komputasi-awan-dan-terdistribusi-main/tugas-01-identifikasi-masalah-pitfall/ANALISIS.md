@@ -5,7 +5,7 @@
 | Nama | NIM | Kontribusi |
 |---|---|---|
 | Hendra DIrga Dwi Saputra | 103072430018 | Latency Is Zero |
-| [nama 2] | [nim] | [pitfall/bagian yang dikerjakan] |
+| Alif Luthfan Adeefa | 103072400163 | The network is reliable |
 | [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
 
 ## Pitfall 1: Latency Is Zero — ditulis oleh Hendra Dirga
@@ -60,11 +60,28 @@ Timeout menyebabkan sistem berhenti menunggu meskipun service pembayaran sebenar
 
 ---
 
-## Pitfall 2: [nama pitfall] — ditulis oleh [nama]
+## Pitfall 2: The Network is reliable — ditulis oleh Alif Luthfan Adeefa
 
-(ulangi struktur di atas)
+**Bukti di skenario:**
+Tim FoodGo menuliskan asumsi di dalam kode mereka bahwa jaringan selalu baik/bagus dan tidak perlu mencoba ulang, yang menunjukkan bahwa mereka yakin kode tersebut tidak akan menimbulkan masalah.
 
----
+**Kenapa ini keliru:**
+Dalam sistem terdistribusi jaringan tidak selalu sempurna dan berisiko terjadi gangguan, sehingga asumsi bahwa jaringan selalu reliable itu keliru, hal ini khususnya berbahaya bagi FoodGo karena lonjakan trafik saat jam makan siang/promo besar meningkatkan risiko gangguan jaringan, sementara sistem mereka belum sama sekali menyiapkan pencegahan dan penanganan untuk risiko ini.
+
+**Dampak ke FoodGo:**
+Rantai kegagalannya dapat digambarkan sebagai berikut:
+
+Request melonjak karena jam makan siang/hari promo → karena jaringan dipakai oleh banyak request secara bersamaan, jaringan menjadi lebih padat, sehingga kemungkinan terjadi gangguan (seperti koneksi terputus sesaat) menjadi lebih besar dibanding saat request sedikit → karena tidak ada retry, request yang gagal karena gangguan jaringan sesaat langsung dianggap gagal total (tidak dicoba lagi) → jika ini terjadi pada banyak request secara bersamaan terutama saat jam makan siang/hari promo, maka sebagian user akan mengalami pesanan gagal/tidak berhasil, meskipun sebenarnya gangguannya cuma sesaat.
+
+Ini sesuai dengan gejala "beberapa permintaan timeout" yang dilaporkan tim engineering — kata "beberapa" (bukan "semua") menunjukkan sifat gangguan jaringan yang acak, sehingga hanya sebagian request yang kebetulan terjadi saat itu yang terdampak.
+
+**Solusi desain awal:**
+Solusi yang bisa diterapkan adalah mencoba ulang (retry), tapi dengan jeda yang meningkat setiap percobaan (backoff) dan dibatasi jumlah maksimal percobaan, agar sistem tidak terus menerus mencoba tanpa henti dan membuat user menunggu terlalu lama, serta tidak membebani server yang sedang sibuk.
+
+Selain retry dengan backoff, FoodGo juga dapat menerapkan circuit breaker, yaitu mekanisme untuk memberhentikan sementara request terkirim ke modul pembayaran yang terus gagal merespons. Solusi ini berguna agar modul pembayaran tidak semakin terbebani oleh request yang terus masuk, serta user langsung mendapat informasi bahwa pembayaran bermasalah, tanpa perlu menunggu retry yang percuma.
+
+**Trade-off:**
+Kalau kondisinya seperti itu (server memang sedang overload, bukan sekadar gangguan sesaat), retry justru akan terus membebani server yang sedang sibuk karena banyak request masuk, dan bisa menyebabkan server crash.
 
 ## Pitfall 3: [nama pitfall] — ditulis oleh [nama]
 
