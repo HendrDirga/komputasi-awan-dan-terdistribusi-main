@@ -6,7 +6,7 @@
 |---|---|---|
 | Hendra DIrga Dwi Saputra | 103072430018 | Latency Is Zero |
 | Alif Luthfan Adeefa | 103072400163 | The network is reliable |
-| [nama 3] | [nim] | [pitfall/bagian yang dikerjakan] |
+| Setyo Nugroho | 103072400045 | Single Server Bottleneck (SPOF) |
 
 ## Pitfall 1: Latency Is Zero — ditulis oleh Hendra Dirga
 
@@ -77,9 +77,45 @@ Selain retry dengan backoff, FoodGo juga dapat menerapkan circuit breaker, yaitu
 
 Kalau kondisinya seperti itu (server memang sedang overload, bukan sekadar gangguan sesaat), retry justru akan terus membebani server yang sedang sibuk karena banyak request masuk, dan bisa menyebabkan server crash.
 
-## Pitfall 3: [nama pitfall] — ditulis oleh [nama]
+## Pitfall 3: Single Server Bottleneck (Single Point Of Failure) — ditulis oleh Setyo Nugroho
 
-(ulangi struktur di atas)
+**Bukti di skenario:**
+
+Pada skenario FoodGo dijelaskan bahwa **satu server yang menangani semua modul (pesanan, pembayaran, notifikasi kurir) kewalahan karena semuanya berjalan di satu proses monolitik yang sama**. Bagian tersebut menunjukkan bahwa seluruh fungsi utama FoodGo bergantung pada satu server/proses yang sama. Ketika server tersebut mengalami kelebihan beban atau gagal, banyak fungsi sistem dapat ikut terdampak.
+
+**Kenapa ini keliru:**
+
+Pada sistem yang harus menangani trafik besar, menempatkan seluruh modul dalam satu server membuat resource seperti CPU, memory, dan koneksi harus digunakan bersama oleh semua fungsi. Saat salah satu bagian menerima beban tinggi, resource yang tersedia untuk bagian lain juga dapat berkurang. Selain itu, jika server tersebut mengalami crash, tidak ada server lain yang dapat mengambil alih fungsi tersebut.
+
+Hal ini menjadi masalah karena sebuah sistem seharusnya tidak terlalu bergantung pada satu komponen yang apabila mengalami kegagalan dapat menyebabkan keseluruhan sistem terganggu.
+
+**Dampak ke FoodGo:**
+
+Lonjakan pesanan saat jam makan siang/promo
+
+→ jumlah request ke backend meningkat
+
+→ pesanan, pembayaran, dan notifikasi menggunakan server dan resource yang sama
+
+→ performa seluruh modul ikut menurun
+
+→ server dapat mengalami overload atau crash
+
+→ karena semua modul berada pada server/proses yang sama, pesanan, pembayaran, dan notifikasi ikut terganggu
+
+→ server harus direstart manual
+
+Dengan kondisi tersebut, masalah pada satu server tidak hanya memengaruhi satu fungsi saja, tetapi dapat menyebabkan beberapa fungsi utama FoodGo tidak dapat digunakan secara bersamaan.
+
+**Solusi desain awal:**
+
+FoodGo dapat mulai mengurangi ketergantungan pada satu server dengan memisahkan komponen yang memiliki beban atau kebutuhan berbeda. Sebagai tahap awal, modul yang paling kritis atau paling sering menerima beban dapat dijalankan secara terpisah sehingga tidak semuanya menggunakan resource dari proses yang sama. Komponen tertentu juga dapat memiliki lebih dari satu instance sehingga ketika salah satu instance mengalami masalah, request masih dapat diarahkan ke instance lainnya. 
+
+FoodGo tidak harus langsung memisahkan seluruh aplikasi menjadi banyak service. Pemisahan dapat dilakukan secara bertahap, terutama pada bagian yang paling membebani server atau paling penting bagi proses pemesanan.
+
+**Trade-off:**
+
+Pemisahan komponen dan penggunaan beberapa instance dapat meningkatkan ketahanan dan kemampuan sistem menangani trafik, tetapi membuat arsitektur menjadi lebih kompleks. FoodGo harus menangani komunikasi antar-komponen, deployment, monitoring, dan kemungkinan masalah baru ketika beberapa instance harus bekerja bersama.
 
 ---
 
