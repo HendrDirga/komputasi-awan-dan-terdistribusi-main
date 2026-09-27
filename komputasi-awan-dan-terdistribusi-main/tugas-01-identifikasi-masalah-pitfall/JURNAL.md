@@ -1,22 +1,21 @@
 # Jurnal Proses — Tugas 1
 
-> Isi jurnal ini selama proses diskusi berlangsung, bukan ditulis ulang rapi di akhir. Tulis dengan gaya bebas — poin diskusi, kebuntuan, perubahan pikiran.
+## Diskusi 1 — 18/9/2026 
+- Peserta:
+  - Hendra Dirga Dwi Saputra
+  - Alif Luthfan Adeefa
+  - Setyo Nugroho
 
-## [Tanggal diskusi 1]
-- Peserta: [nama-nama yang hadir]
-- Poin diskusi: ...
-- Perbedaan pendapat (jika ada): ...
+- Poin diskusi:
+  - Kelompok membagi analisis tiga pitfall pada skenario FoodGo.
+  - Hendra membahas pitfall **Latency Is Zero**.
+  - Alif membahas pitfall **The Network is Reliable**.
+  - Setyo membahas pitfall **Single Server Bottleneck (Single Point Of Failure)**.
+  - Setiap anggota mencari bukti dari skenario, menjelaskan mengapa asumsi tersebut ada yang salah, dampaknya terhadap FoodGo, solusi desain awal, dan trade-off.
 
-## [Tanggal diskusi 2]
-- ...
-
-## Review Silang
-- [Nama] mengomentari analisis [Nama lain]: ...
 
 ## Log Penggunaan AI (Level 2)
 
-> Wajib diisi sesuai kebijakan Level 2 di [`../RUBRIK-UMUM.md`](../RUBRIK-UMUM.md). Tulis "Tidak memakai AI" pada baris pertama jika memang tidak dipakai. Hanya untuk brainstorming ide/outline — bukan untuk kode/analisis/teks akhir.
-
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
 |---|---|---|---|---|
-| ... | ... | ... | ... | ... |
+| 18/9/2026 | ChatGPT | Membantu memahami struktur jurnal yang di berikan. | AI menyarankan struktur jurnal yang mencatat peserta, poin diskusi, dan log penggunaan AI. | Kelompok menggunakan struktur tersebut sebagai panduan jurnal, kemudian mengisi isi jurnal berdasarkan proses diskusi dan pekerjaan kelompok. |
