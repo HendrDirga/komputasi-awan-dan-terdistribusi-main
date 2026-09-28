@@ -2,7 +2,7 @@
 
 **Kelompok:** [kelompok 5]
 
-| Nama | NIM |
+| Nama | NIM |  |
 |---|---|---|
 | Hendra DIrga Dwi Saputra | 103072430018 |
 | Alif Luthfan Adeefa | 103072400163 |
