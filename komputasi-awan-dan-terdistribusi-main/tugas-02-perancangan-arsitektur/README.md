@@ -99,7 +99,7 @@ graph TB
 
 ---
 
-## 5. Analisis Trade-off
+## 4. Analisis Trade-off
 
 Arsitektur ini tidak membuat masalah hilang begitu saja, sebagian hanya berpindah tempat. Berikut kekurangan dan kompleksitas baru yang muncul beserta cara menanganinya.
 
@@ -125,6 +125,6 @@ tidak akan tahu ada pesanan. Solusinya, event ditulis ke database bersamaan deng
 
 ---
 
-## 6. Kesimpulan
+## 5. Kesimpulan
 
 Kombinasi **SOA + Pub-Sub** dipilih karena kebutuhan FoodGo bersifat campuran. Bagian yang butuh jawaban langsung (validasi dan pembayaran) memakai komunikasi sinkron yang dilindungi timeout dan circuit breaker. Bagian yang berupa reaksi berantai (notifikasi resto, penugasan kurir) memakai event asinkron agar tidak memblokir pelanggan dan tidak saling menjatuhkan. Hasilnya, deploy per modul, *scaling* selektif, dan isolasi kegagalan tercapai. Harganya adalah kompleksitas operasional, konsistensi eventual, dan debugging yang lebih sulit, yang perlu diimbangi dengan tracing, outbox, idempotency, dan kontrak yang di-versi.
