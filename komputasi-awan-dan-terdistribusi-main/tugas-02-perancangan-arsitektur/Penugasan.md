@@ -2,11 +2,11 @@
 
 **Kelompok:** [kelompok 5]
 
-| Nama | NIM | Kontribusi |
+| Nama | NIM |
 |---|---|---|
-| Hendra DIrga Dwi Saputra | 103072430018 | Latency Is Zero |
-| Alif Luthfan Adeefa | 103072400163 | The network is reliable |
-| Setyo Nugroho | 103072400045 | Single Server Bottleneck (SPOF) |
+| Hendra DIrga Dwi Saputra | 103072430018 |
+| Alif Luthfan Adeefa | 103072400163 |
+| Setyo Nugroho | 103072400045 |
 
 Pada rancangan FoodGo, Service-Oriented Architecture (SOA) digunakan untuk
 memisahkan fungsi utama aplikasi menjadi beberapa service yang memiliki
