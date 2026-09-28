@@ -1,4 +1,12 @@
-## Service-Oriented Architecture (SOA)
+# Tugas 2 — Service-Oriented Architecture (SOA)
+
+**Kelompok:** [kelompok 5]
+
+| Nama | NIM | Kontribusi |
+|---|---|---|
+| Hendra DIrga Dwi Saputra | 103072430018 | Latency Is Zero |
+| Alif Luthfan Adeefa | 103072400163 | The network is reliable |
+| Setyo Nugroho | 103072400045 | Single Server Bottleneck (SPOF) |
 
 Pada rancangan FoodGo, Service-Oriented Architecture (SOA) digunakan untuk
 memisahkan fungsi utama aplikasi menjadi beberapa service yang memiliki
