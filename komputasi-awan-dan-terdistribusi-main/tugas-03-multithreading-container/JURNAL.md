@@ -6,9 +6,7 @@ Hasil dari processed_count yang diperoleh saat menampilkan race condition: Tanpa
 
 ## Percobaan dengan Lock
 
-Hasil pengujian lokal versi final:
-Total pesanan diproses: 100 (seharusnya 100)
-Semua pesanan berhasil diproses dengan aman.
+Hasil pengujian lokal versi final: Total pesanan diproses: 100 (seharusnya 100). Semua pesanan berhasil diproses dengan aman.
 
 Hasil menunjukkan counter mencapai 100 pada setiap percobaan karena perubahan terhadap shared counter dilakukan di dalam `with lock:`.
 
