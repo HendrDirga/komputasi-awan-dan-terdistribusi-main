@@ -2,9 +2,7 @@
 
 ## Percobaan tanpa Lock
 
-Hasil `processed_count` yang didapat pada demonstrasi race condition:
-Tanpa Lock: 10 (seharusnya 100)
-Alasan meleset: beberapa thread dapat membaca nilai `processed_count` yang sama sebelum thread lain menulis hasil increment-nya. Ketika hasil tersebut ditulis kembali, pembaruan dari thread lain dapat tertimpa. Akibatnya jumlah akhir lebih kecil daripada jumlah order yang sebenarnya diproses.
+Hasil dari processed_count yang diperoleh saat menampilkan race condition: Tanpa Lock: 10 (seharusnya 100). Alasan hasil tidak sesuai: beberapa thread bisa membaca nilai processed_count yang sama sebelum thread lain menulis hasil penambahannya. Ketika nilai tersebut ditulis kembali, perubahan dari thread lain bisa tergantikan. Akibatnya, angka akhir lebih kecil dari jumlah pesanan yang sebenarnya diproses.
 
 ## Percobaan dengan Lock
 
