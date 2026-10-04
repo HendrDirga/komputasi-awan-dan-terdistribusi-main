@@ -9,30 +9,17 @@ import threading
 import random
 import time
 
-NUM_ORDERS = 100        # jumlah pesanan simulasi yang masuk
-NUM_WORKERS = 10        # jumlah thread pekerja
+NUM_ORDERS = 100       
+NUM_WORKERS = 10       
 
-# Counter bersama untuk menghitung total pesanan yang berhasil diproses.
-# Sengaja rawan race condition jika diakses tanpa proteksi.
 processed_count = 0
-
-# TODO 1: Buat objek Lock di sini untuk melindungi `processed_count`.
-# lock = threading.Lock()
-
 
 def process_order(order_id: int) -> None:
     """Proses satu pesanan. Dipanggil oleh tiap thread pekerja."""
     global processed_count
 
-    # Simulasikan kerja nyata (mis. validasi, hitung total harga)
     time.sleep(random.uniform(0.001, 0.01))
 
-    # TODO 2: Tambahkan increment `processed_count` DI SINI.
-    # Langkah 1: jalankan dulu tanpa lock (increment biasa: processed_count += 1)
-    #            dan buktikan hasil akhirnya sering salah (< NUM_ORDERS).
-    # Langkah 2: bungkus increment dengan `with lock:` dan buktikan hasilnya
-    #            selalu tepat NUM_ORDERS. Simpan bukti kedua kondisi ini
-    #            di JURNAL.md / folder bukti/.
     pass
 
 
@@ -45,11 +32,8 @@ def worker(order_ids: list) -> None:
 def main() -> None:
     order_ids = list(range(1, NUM_ORDERS + 1))
 
-    # TODO 3: Bagi `order_ids` menjadi NUM_WORKERS bagian, buat satu
-    # threading.Thread per bagian yang menjalankan `worker(...)`,
-    # start semua thread, lalu join semua thread sebelum lanjut.
     threads = []
-    # ... isi logika pembagian tugas & pembuatan thread di sini ...
+
 
     for t in threads:
         t.join()
