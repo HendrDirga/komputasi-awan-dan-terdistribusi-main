@@ -1,0 +1,4 @@
+﻿Event terkirim: {'user_id': 'user1', 'jumlah': 20000, 'timestamp': 1791746422.719917}
+Event terkirim: {'user_id': 'user2', 'jumlah': 40000, 'timestamp': 1791746423.721078}
+Event terkirim: {'user_id': 'user3', 'jumlah': 60000, 'timestamp': 1791746424.7226322}
+Publisher selesai mengirim event.

@@ -11,13 +11,11 @@ QUEUE_NAME = "pembayaran_berhasil"
 
 
 def main():
-    # TODO 1: buat koneksi ke RabbitMQ di localhost (pika.BlockingConnection
-    # dengan ConnectionParameters(host="localhost")), lalu buat channel.
-    connection = None
-    channel = None
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
+    channel = connection.channel()
 
-    # TODO 2: deklarasikan queue dengan nama QUEUE_NAME (channel.queue_declare),
-    # gunakan durable=True supaya pesan tidak hilang walau RabbitMQ restart.
+    # durable=True: definisi queue bertahan walau RabbitMQ restart
+    channel.queue_declare(queue=QUEUE_NAME, durable=True)
 
     for i in range(1, 4):
         pesan = {
@@ -25,12 +23,17 @@ def main():
             "jumlah": 20000 * i,
             "timestamp": time.time(),
         }
-        # TODO 3: publish `pesan` (di-encode json) ke QUEUE_NAME memakai
-        # channel.basic_publish(...). Cetak log "Event terkirim: ..." setiap publish.
-        print(f"[TODO] Event belum benar-benar terkirim: {pesan}")
+        channel.basic_publish(
+            exchange="",
+            routing_key=QUEUE_NAME,
+            body=json.dumps(pesan),
+            # delivery_mode=2: isi pesan disimpan ke disk (persistent)
+            properties=pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent),
+        )
+        print(f"Event terkirim: {pesan}")
         time.sleep(1)
 
-    # TODO 4: tutup koneksi (connection.close()) setelah selesai.
+    connection.close()
     print("Publisher selesai mengirim event.")
 
 

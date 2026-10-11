@@ -1,0 +1,33 @@
+﻿### 1) consumer.py MATI. publisher.py dijalankan 2 kali
+--- publisher run #1 ---
+Event terkirim: {'user_id': 'user1', 'jumlah': 20000, 'timestamp': 1791746441.3640969}
+Event terkirim: {'user_id': 'user2', 'jumlah': 40000, 'timestamp': 1791746442.3649583}
+Event terkirim: {'user_id': 'user3', 'jumlah': 60000, 'timestamp': 1791746443.366123}
+Publisher selesai mengirim event.
+--- publisher run #2 ---
+Event terkirim: {'user_id': 'user1', 'jumlah': 20000, 'timestamp': 1791746444.9143429}
+Event terkirim: {'user_id': 'user2', 'jumlah': 40000, 'timestamp': 1791746445.9149692}
+Event terkirim: {'user_id': 'user3', 'jumlah': 60000, 'timestamp': 1791746446.9163642}
+Publisher selesai mengirim event.
+
+### 2) Isi antrean saat consumer mati (rabbitmqctl list_queues)
+name	durable	messages_ready	messages_unacknowledged
+pembayaran_berhasil	true	6	0
+
+### 3) Broker RabbitMQ di-restart (docker compose restart) saat pesan masih di antrean
+Isi antrean setelah restart broker:
+name	durable	messages_ready	messages_unacknowledged
+pembayaran_berhasil	true	6	0
+
+### 4) consumer.py DINYALAKAN
+Menunggu event dari antrean 'pembayaran_berhasil'... (Ctrl+C untuk berhenti)
+Kurir menerima notifikasi pembayaran untuk user1 sejumlah 20000 (dikirim Mon Oct 12 02:20:41 2026)
+Kurir menerima notifikasi pembayaran untuk user2 sejumlah 40000 (dikirim Mon Oct 12 02:20:42 2026)
+Kurir menerima notifikasi pembayaran untuk user3 sejumlah 60000 (dikirim Mon Oct 12 02:20:43 2026)
+Kurir menerima notifikasi pembayaran untuk user1 sejumlah 20000 (dikirim Mon Oct 12 02:20:44 2026)
+Kurir menerima notifikasi pembayaran untuk user2 sejumlah 40000 (dikirim Mon Oct 12 02:20:45 2026)
+Kurir menerima notifikasi pembayaran untuk user3 sejumlah 60000 (dikirim Mon Oct 12 02:20:46 2026)
+
+### 5) Isi antrean setelah consumer memproses + ack
+name	durable	messages_ready	messages_unacknowledged
+pembayaran_berhasil	true	0	0

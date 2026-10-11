@@ -1,0 +1,4 @@
+Menunggu event dari antrean 'pembayaran_berhasil'... (Ctrl+C untuk berhenti)
+Kurir menerima notifikasi pembayaran untuk user1 sejumlah 20000 (dikirim Mon Oct 12 02:20:22 2026)
+Kurir menerima notifikasi pembayaran untuk user2 sejumlah 40000 (dikirim Mon Oct 12 02:20:23 2026)
+Kurir menerima notifikasi pembayaran untuk user3 sejumlah 60000 (dikirim Mon Oct 12 02:20:24 2026)
