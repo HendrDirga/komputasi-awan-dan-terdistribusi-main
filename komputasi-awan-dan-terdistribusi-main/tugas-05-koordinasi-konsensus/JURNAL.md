@@ -18,7 +18,10 @@
 
 > Wajib diisi sesuai kebijakan Level 2 di [`../RUBRIK-UMUM.md`](../RUBRIK-UMUM.md). Tulis "Tidak memakai AI" pada baris pertama jika memang tidak dipakai. Hanya untuk brainstorming ide/outline — bukan untuk kode/analisis/teks akhir.
 
+## Log Penggunaan AI (Level 2)
+
 | Tanggal | Tool AI | Prompt yang diberikan | Ringkasan saran/ide AI | Bagaimana diolah jadi tulisan/kode sendiri |
-|18 Okt 2026|ChatGPT|Jelaskan cara kerja algoritma Bully dalam pemilihan leader pada sistem terdistribusi.|mempelajari alur election dan coordinator, lalu menjelaskan kembali proses pemilihan leader berdasarkan hasil pengamatan program.|
-|18 Okt 2026|Claude|Penjelasan alur Bully: leader mati terdeteksi lewat PING, node mengirim ELECTION ke ID lebih besar, ada OK atau tidak, lalu pemenang mengirim COORDINATOR. Disertai contoh Node 5 mati lalu Node 4 terpilih.|Menggunakan penjelasan tersebut untuk menyusun skenario pengujian ketika Node 5 dimatikan dan mengamati perubahan leader menjadi Node 4.|
-|18 Okt 2026|Claude|Penjelasan fungsi timeout (CONNECT_TIMEOUT, ELECTION_TIMEOUT, MONITOR_INTERVAL) untuk menunggu balasan, dan election_lock untuk mencegah dua election berjalan bersamaan di satu node. Dibedakan dari self.lock yang melindungi data bersama.|Menghubungkan penjelasan tersebut dengan mekanisme timeout dan election lock pada implementasi, kemudian merangkum fungsinya menggunakan bahasa sendiri.|
+|---|---|---|---|---|
+| 18 Okt 2026 | ChatGPT | Jelaskan cara kerja algoritma Bully dalam pemilihan leader pada sistem terdistribusi. | Penjelasan alur election dan coordinator pada Bully. | Mempelajari alur election dan coordinator, lalu menjelaskan kembali proses pemilihan leader berdasarkan hasil pengamatan program. |
+| 18 Okt 2026 | Claude | Bagaimana proses pemilihan leader baru jika coordinator sebelumnya dimatikan? | Alur Bully: leader mati terdeteksi lewat PING, node mengirim ELECTION ke ID lebih besar, ada OK atau tidak, lalu pemenang mengirim COORDINATOR. Disertai contoh Node 5 mati lalu Node 4 terpilih. | Memakai penjelasan tersebut untuk memahami hasil skenario ketika Node 5 dimatikan dan mengamati perubahan leader menjadi Node 4. |
+| 18 Okt 2026 | Claude | Apa fungsi timeout dan election lock dalam implementasi algoritma Bully? | Fungsi timeout (CONNECT_TIMEOUT, ELECTION_TIMEOUT, MONITOR_INTERVAL) untuk menunggu balasan, dan election_lock untuk mencegah dua election berjalan bersamaan di satu node. Dibedakan dari self.lock yang melindungi data bersama. | Menghubungkan penjelasan tersebut dengan mekanisme timeout dan election lock pada implementasi, kemudian merangkum fungsinya dengan bahasa sendiri. |
