@@ -1,0 +1,71 @@
+[JOIN] Node 'node-jakarta-1' (id=177) bergabung, alamat 10.0.0.1
+[JOIN] Node 'node-jakarta-2' (id=102) bergabung, alamat 10.0.0.2
+  Tidak ada key yang pindah
+[JOIN] Node 'node-bandung-1' (id=40) bergabung, alamat 10.0.0.3
+  Tidak ada key yang pindah
+[JOIN] Node 'node-surabaya-1' (id=136) bergabung, alamat 10.0.0.4
+  Tidak ada key yang pindah
+
+[REGISTER] kurir-001 (hash=50) -> 192.168.1.10, disimpan di node 102
+[REGISTER] kurir-002 (hash=28) -> 192.168.1.11, disimpan di node 40
+[REGISTER] kurir-003 (hash=132) -> 192.168.1.12, disimpan di node 136
+[REGISTER] kurir-004 (hash=24) -> 192.168.1.13, disimpan di node 40
+[REGISTER] kurir-005 (hash=175) -> 192.168.1.14, disimpan di node 177
+[REGISTER] kurir-006 (hash=217) -> 192.168.1.15, disimpan di node 40
+[REGISTER] kurir-007 (hash=181) -> 192.168.1.16, disimpan di node 40
+[REGISTER] kurir-008 (hash=16) -> 192.168.1.17, disimpan di node 40
+[REGISTER] kurir-009 (hash=170) -> 192.168.1.18, disimpan di node 177
+[REGISTER] kurir-010 (hash=52) -> 192.168.1.19, disimpan di node 102
+[REGISTER] kurir-011 (hash=127) -> 192.168.1.20, disimpan di node 136
+[REGISTER] kurir-012 (hash=116) -> 192.168.1.21, disimpan di node 136
+
+--- Isi ring awal ---
+  node 40 (10.0.0.3): kurir-008(16), kurir-004(24), kurir-002(28), kurir-007(181), kurir-006(217)
+  node 102 (10.0.0.2): kurir-001(50), kurir-010(52)
+  node 136 (10.0.0.4): kurir-012(116), kurir-011(127), kurir-003(132)
+  node 177 (10.0.0.1): kurir-009(170), kurir-005(175)
+
+--- Lookup sebelum perubahan topologi ---
+[LOOKUP] kurir-001 (hash=50) ditangani node 102
+kurir-001 -> 192.168.1.10
+[LOOKUP] kurir-002 (hash=28) ditangani node 40
+kurir-002 -> 192.168.1.11
+[LOOKUP] kurir-012 (hash=116) ditangani node 136
+kurir-012 -> 192.168.1.21
+[LOOKUP] kurir-005 (hash=175) ditangani node 177
+kurir-005 -> 192.168.1.14
+
+--- Node baru bergabung ---
+[JOIN] Node 'node-medan-1' (id=123) bergabung, alamat 10.0.0.5
+  kurir-012 (hash=116) pindah dari node 136 ke node 123
+[LOOKUP] kurir-001 (hash=50) ditangani node 102
+kurir-001 -> 192.168.1.10
+[LOOKUP] kurir-012 (hash=116) ditangani node 123
+kurir-012 -> 192.168.1.21
+  node 40 (10.0.0.3): kurir-008(16), kurir-004(24), kurir-002(28), kurir-007(181), kurir-006(217)
+  node 102 (10.0.0.2): kurir-001(50), kurir-010(52)
+  node 123 (10.0.0.5): kurir-012(116)
+  node 136 (10.0.0.4): kurir-011(127), kurir-003(132)
+  node 177 (10.0.0.1): kurir-009(170), kurir-005(175)
+
+--- Sebuah node keluar ---
+[LEAVE] Node 'node-jakarta-1' (id=177) keluar dari ring
+  kurir-005 (hash=175) pindah dari node 177 ke node 40
+  kurir-009 (hash=170) pindah dari node 177 ke node 40
+[LOOKUP] kurir-001 (hash=50) ditangani node 102
+kurir-001 -> 192.168.1.10
+[LOOKUP] kurir-002 (hash=28) ditangani node 40
+kurir-002 -> 192.168.1.11
+[LOOKUP] kurir-005 (hash=175) ditangani node 40
+kurir-005 -> 192.168.1.14
+[LOOKUP] kurir-009 (hash=170) ditangani node 40
+kurir-009 -> 192.168.1.18
+  node 40 (10.0.0.3): kurir-008(16), kurir-004(24), kurir-002(28), kurir-009(170), kurir-005(175), kurir-007(181), kurir-006(217)
+  node 102 (10.0.0.2): kurir-001(50), kurir-010(52)
+  node 123 (10.0.0.5): kurir-012(116)
+  node 136 (10.0.0.4): kurir-011(127), kurir-003(132)
+
+--- IP kurir berubah ---
+[REGISTER] kurir-001 (hash=50) -> 192.168.7.25, disimpan di node 102
+[LOOKUP] kurir-001 (hash=50) ditangani node 102
+kurir-001 -> 192.168.7.25
